@@ -19,6 +19,7 @@ function validateConfirmPassword(password, confirmPassword) {
     if (password !== confirmPassword) return "Passwords do not match.";
     return "";
 }
+
 document.getElementById('registrationForm').addEventListener('input', function() {
     const username = document.getElementById('username').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -29,6 +30,7 @@ document.getElementById('registrationForm').addEventListener('input', function()
     document.getElementById('passwordFeedback').textContent = validatePassword(password);
     document.getElementById('confirmPasswordFeedback').textContent = validateConfirmPassword(password, confirmPassword);
 });
+
 document.getElementById('registrationForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const username = document.getElementById('username').value.trim();
@@ -43,12 +45,23 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     document.getElementById('emailFeedback').textContent = emailError;
     document.getElementById('passwordFeedback').textContent = passwordError;
     document.getElementById('confirmPasswordFeedback').textContent = confirmPasswordError;
+    const infoDisplay = document.getElementById('infoDisplay');
     if (!usernameError && !emailError && !passwordError && !confirmPasswordError) {
         document.getElementById('formMessage').textContent = "Registration successful!";
         document.getElementById('formMessage').style.color = "#2e7d32";
-        this.reset();
+        infoDisplay.innerHTML = `
+            <div style="background:#232526;padding:18px 14px;border-radius:8px;color:#ffd700;">
+                <strong>Submitted Information:</strong><br>
+                Username: <span style="color:#fff;">${username}</span><br>
+                Email: <span style="color:#fff;">${email}</span><br>
+                Password: <span style="color:#fff;">${password}</span><br>
+                Confirm Password: <span style="color:#fff;">${confirmPassword}</span>
+            </div>
+        `;
+        // this.reset(); // Uncomment to reset form after submit
     } else {
         document.getElementById('formMessage').textContent = "Please fix the errors above.";
         document.getElementById('formMessage').style.color = "#c62828";
+        infoDisplay.innerHTML = "";
     }
 });
